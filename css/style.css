@@ -2,10 +2,12 @@ body, header, h1, h4, canvas, footer, button, img, div, select, option {
   margin: 0px;
   padding: 0px;
   border: 0px;
+  outline: none;
 }
 
 body  {
-  background-color: #87cefa;
+  background-color: #000000;
+  color: white;
 }
 
 header {
@@ -27,12 +29,12 @@ header > h1 {
 
 .middle-container {
   font-family: 'Raleway', sans-serif;
-  width: 80%;
   margin: 0 auto;
+  margin-top: 20px;
 
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: center;
   flex-wrap: wrap;
 }
 
@@ -56,41 +58,44 @@ header > h1 {
 }
 
 canvas {
-  margin-top: 20px;
+  margin-top: 30px;
   display: block;
+  background-color: #777777;
 }
 
 .bonus {
   margin-top: 20px;
+  margin-left: 100px;
   width: 480px;
-  background-color: #DDFCAD;
+  background-color: #000000;
   border-radius: 6px;
 }
 
 .bonus h2 {
-  padding: 20px;
   font-size: 30px;
 }
 
-#reset-level, #skip-level, .reset-game {
+#reset-level, #skip-level, #next-level, #reset-game {
   cursor: pointer;
   box-sizing: border-box;
   margin: 20px 35px;
   width: 400px;
   height: 70px;
-  background-color: #FF8784;
-  border: 2px dashed #ffffff;
+  background-color: #ffffff;
   border-radius: 6px;
   font-size: 32px;
   font-weight: bold;
 }
 
-#reset-level:hover, #skip-level:hover, .reset-game:hover {
-  background-color: #6CDB7F;
+#reset-level:hover, #skip-level:hover, #next-level:hover, #reset-game:hover {
+  background-color: #aaaaaa;
 }
 
-#reset-level:focus, #skip-level:focus, .reset-game:focus {
-  outline: none;
+#next-level {
+  border-color: black;
+  border-width: 1px;
+  border-style: solid;
+  margin-top: 40px;
 }
 
 select {
@@ -98,7 +103,7 @@ select {
   width: 100px;
   font-size: 18px;
   text-align-last:center;
-  border: 2px solid red;
+  border: 2px solid #aaaaaa;
 }
 
 #dialog {
@@ -107,11 +112,7 @@ select {
   border-radius: 6px;
   background-color: #ffffff;
   text-align: center;
-}
-
-#dialog h3 {
-  padding-top: 20px;
-  font-size: 36px;
+  padding-top: 30px;
 }
 
 .no-close .ui-dialog-titlebar-close {
@@ -128,4 +129,24 @@ footer {
 
 footer img {
   padding: 20px 20px;
+}
+
+h3 {
+  color: grey;
+  font-size: 34px;
+  margin-block-start: 0;
+}
+
+#score {
+  color: black;
+}
+
+#logo {
+  width: 500px;
+  height: 123px;
+  object-fit: cover;
+}
+
+#new-highscore {
+  color: black;
 }

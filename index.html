@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title>Sokoban - Boris Paskhaver</title>
+    <title>Rootstrap</title>
 
     <script src="https://code.createjs.com/createjs-2015.11.26.min.js"></script>
 
@@ -19,6 +19,9 @@
     crossorigin="anonymous">
     </script>
 
+    <script src="https://www.gstatic.com/firebasejs/6.5.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/6.5.0/firebase-database.js"></script>
+
     <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
 
 
@@ -29,45 +32,20 @@
   <body>
 
     <header>
-      <h1>Sokoban</h1>
+      <img id="logo" src="PNG/logo.png" />
     </header>
 
     <div class="middle-container">
-
-      <div class="instructions">
-        <h2>Welcome!</h2>
-
-        <p>Sokoban is a popular puzzle game developed by Hiroyuki
-        Imabayashi in 1981. The goal of the game is to move all boxes on
-        the screen to their designated checkpoints.</p>
-
-        <h2>Instructions</h2>
-
-        <p>Use the arrow keys on the keyboard to move the player
-        around the grid. The next level will load when all
-        boxes are placed on checkpoints.</p>
-
-        <p>If you get stuck, click the Reset Level button on the
-        right to restart the level.</p>
-
-        <h2>About</h2>
-
-        <p>Sokoban is built using Easel.js, a library for
-        interacting with HTML5's canvas element. Explore the
-        project's code at <a href="http://www.github.com/paskhaver/sokoban" target="_blank">GitHub</a>.</p>
-
-
-      </div>
-      <canvas id="canvas">
-
-      </canvas>
+      <canvas id="canvas"></canvas>
 
       <div id="dialog">
-        <h3>Congratulations! You won!</h3>
+        <h3 id="new-highscore">New Lowscore</h3>
+
+        <h3>Steps taken: <span id="score"></span></h3>
 
         <img src="PNG/burgundy.jpg" width="400">
 
-        <button class="reset-game">Play Again</button>
+        <button id="next-level">Next level</button>
       </div>
 
       <div class="bonus">
@@ -105,28 +83,28 @@
             <option value="30">30</option>
           </select>
           of 30</h2>
+        <h2>Lowscore: <span id="highscore">-</span></h2>
         <h2>Steps Taken: <span id="steps-taken">0</span></h2>
         <h2>Box Pushes: <span id="box-pushes">0</span></h2>
         <button id="reset-level">Reset Level</button>
         <button id="skip-level">Skip Level</button>
-        <button class="reset-game">Reset Game</button>
+        <button id="reset-game">Reset Game</button>
       </div>
 
     </div>
 
-    <footer>
-
-      <a href="http://www.github.com/paskhaver/sokoban" target="_blank">
-        <img height="80" src="./PNG/github-logo.png">
-      </a>
-
-      <a href="https://www.linkedin.com/in/boris-paskhaver-73399760/" target="_blank">
-        <img height="80" src="./PNG/linkedin-logo.png">
-      </a>
-
-      </footer>
-
+    <script>
+        var firebaseConfig = {
+          apiKey: "AIzaSyDGZyc14nGcDA_rAN46BLEZMCtr1O9Yhbg",
+          authDomain: "sokoban-5d123.firebaseapp.com",
+          databaseURL: "https://sokoban-5d123.firebaseio.com",
+          projectId: "sokoban-5d123",
+          storageBucket: "",
+          messagingSenderId: "92368809466",
+          appId: "1:92368809466:web:6b0ac663b462ad42"
+        };
+        firebase.initializeApp(firebaseConfig);
+      </script>
     <script src="./dist/bundle.js"></script>
-
   </body>
 </html>

@@ -365,6 +365,15 @@ class Board {
 
 const LEVELS = [
   [["#", "#", "#", "#", "#", "#", "#", "#"],
+  ["#", "#", "#", "#", " ", "@", "#", "#"],
+  ["#", " ", " ", "*", "$", " ", "#", "#"],
+  ["#", " ", " ", " ", " ", " ", "#", "#"],
+  ["#", "#", " ", ".", "#", "#", "#", "#"],
+  ["#", "#", "$", " ", "#", "#", "#", "#"],
+  ["#", "#", " ", ".", "#", "#", "#", "#"],
+  ["#", "#", "#", "#", "#", "#", "#", "#"]],
+
+  [["#", "#", "#", "#", "#", "#", "#", "#"],
   ["#", "#", "#", " ", " ", ".", " ", "#"],
   ["#", "#", " ", "*", " ", "#", " ", "#"],
   ["#", "#", " ", ".", "$", " ", " ", "#"],
@@ -380,15 +389,6 @@ const LEVELS = [
   ["#", "#", ".", "$", "$", " ", "#", "#"],
   ["#", "#", " ", " ", "#", "#", "#", "#"],
   ["#", "#", "#", "#", "#", "#", "#", "#"],
-  ["#", "#", "#", "#", "#", "#", "#", "#"]],
-
-  [["#", "#", "#", "#", "#", "#", "#", "#"],
-  ["#", "#", "#", "#", " ", "@", "#", "#"],
-  ["#", " ", " ", "*", "$", " ", "#", "#"],
-  ["#", " ", " ", " ", " ", " ", "#", "#"],
-  ["#", "#", " ", ".", "#", "#", "#", "#"],
-  ["#", "#", "$", " ", "#", "#", "#", "#"],
-  ["#", "#", " ", ".", "#", "#", "#", "#"],
   ["#", "#", "#", "#", "#", "#", "#", "#"]],
 
   [["#", "#", "#", "#", "#", "#", "#", "#"],
@@ -635,8 +635,6 @@ const LEVELS = [
   ["#", "#", "#", "#", "#", "#", "#", "#"]]
 ];
 
-console.log(LEVELS.length);
-
 /* harmony default export */ __webpack_exports__["a"] = LEVELS;
 
 
@@ -652,7 +650,7 @@ class Box extends __WEBPACK_IMPORTED_MODULE_0__tile_js__["a" /* default */] {
 
   constructor(row, column) {
     super(row, column);
-    this.imageSrc = "./PNG/Crates/crate_05.png";
+    this.imageSrc = "./PNG/Crates/crate_02.png";
     this.onCheckPoint = false;
   }
 
@@ -673,7 +671,7 @@ class Checkpoint extends __WEBPACK_IMPORTED_MODULE_0__tile_js__["a" /* default *
 
   constructor(row, column) {
     super(row, column);
-    this.imageSrc = "./PNG/Crates/crate_30.png";
+    this.imageSrc = "./PNG/Crates/crate_27.png";
     this.player = false;
     this.box = false;
   }
@@ -741,7 +739,7 @@ class Wall extends __WEBPACK_IMPORTED_MODULE_0__tile_js__["a" /* default */] {
 
   constructor(row, column) {
     super(row, column);
-    this.imageSrc = "./PNG/Environment/environment_04.png";
+    this.imageSrc = "./PNG/Environment/environment_15.png";
   }
 
 }
@@ -778,6 +776,7 @@ class Sokoban {
 document.addEventListener("DOMContentLoaded", () => {
   let sokoban = new Sokoban();
   let board = sokoban.board;
+  let highscore = 999999999;
 
   $("#dialog").dialog({
     autoOpen: false,
@@ -788,10 +787,24 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   function createNewGame(level) {
-    $("#dialog").dialog("close");
-    $("#canvas").show();
     sokoban = new Sokoban(level);
     board = sokoban.board;
+
+    highscore = 999999999;
+    $("#highscore").text("-");
+
+    firebase.database().ref('/levels/' + level).once('value').then(function(snapshot) {
+      var score = (snapshot.val() && snapshot.val().score);
+      if (score) {
+        $("#highscore").text(score);
+        highscore = score ;
+      }
+    });
+
+    $("#dialog").dialog("close");
+    $("#new-highscore").hide();
+    $(".bonus").show();
+    $("#canvas").show();
     $("#steps-taken").text(board.stepCount);
     $("#box-pushes").text(board.boxPushes);
     $("#level").text(sokoban.level + 1);
@@ -808,7 +821,13 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  $(".reset-game").click(event => {
+  $("#next-level").click(event => {
+    if (sokoban.level < 30) {
+      createNewGame(sokoban.level + 1);
+    }
+  });
+
+  $("#reset-game").click(event => {
     createNewGame(0);
   });
 
@@ -841,17 +860,22 @@ document.addEventListener("DOMContentLoaded", () => {
       $("#box-pushes").text(board.boxPushes);
 
       if (sokoban.board.gameOver()) {
-
-        if(sokoban.level === 29) {
-          $("#canvas").hide();
-          $("#dialog").dialog("open");
-          return;
+        var score = board.stepCount;
+        var isHighscore = score < highscore;
+        if (isHighscore) {
+          firebase.database().ref('levels/' + sokoban.level).set({
+            score: score,
+          });
+          $("#new-highscore").show();
         }
-
-        createNewGame(sokoban.level + 1);
+        $("#score").text(score);
+        $(".bonus").hide();
+        $("#canvas").hide();
+        $("#dialog").dialog("open");
       }
   }
   );
+  createNewGame(0);
 });
 
 

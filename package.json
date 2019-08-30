@@ -1,0 +1,12 @@
+{
+  "name": "rootstrap-sokoban",
+  "version": "1.0.0",
+  "description": "rootstrap-sokoban",
+  "repository": "https://github.com/agustito37/sokoban",
+  "scripts": {
+    "start": "http-server"
+  },
+  "dependencies": {
+    "http-server": "^0.11.1"
+  }
+}
